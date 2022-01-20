@@ -1,0 +1,252 @@
+* {
+    box-sizing: border-box;
+    font-family: 'Montserrat', Arial, sans-serif;
+    /* border: 1px solid black; */
+}
+
+html {
+    background-color: rgb(253, 253, 253);
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    height: 100%;
+}
+
+#main-window {
+    display: flex;
+    height: 100%;
+}
+
+/* Header section */
+
+header {
+    background-color: gray;
+    color: white;
+    padding: 0 2rem;
+    font-size: 28px;
+}
+
+header p {
+    margin: 1rem 0;
+}
+
+/* Sidebar section */
+
+sidebar {
+    width: 25%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(238, 238, 238);
+}
+
+content {
+    width: 75%;
+}
+
+#all-tasks {
+    background-color: rgb(151, 104, 104);
+    color: white;
+    width: 10rem;
+    height: 2.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 0.7rem;
+    margin-left: 1rem;
+    border-radius: 5px;
+
+}
+
+#add-project {
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+    background-color: gray;
+    color: white;
+    width: 10rem;
+    height: 2.5rem;
+    margin-left: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+#add-project p {
+    margin: 0;
+    padding: 0 0.7rem;
+}
+
+.plus-sign {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+#projects-container {
+    width: 100%;
+}
+
+/* projects */
+
+.project {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 0.5rem;
+}
+
+.project-wrapper {
+    display: flex;
+    margin: 0.5rem 0.5rem;
+    width: 10rem;
+    height: 2.5rem;
+    background-color: rgb(104, 112, 177);
+    color: white;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+}
+
+.delete-project-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    padding: 0.25rem 0.25rem;
+    border-radius: 5px;
+}
+
+/* New project prompt */
+
+.new-project-prompt {
+    margin-left: 1rem;
+    margin-top: 1.5rem;
+}
+
+#new-project-input {
+    width: 80%;
+    margin: 0.5rem 0;
+}
+
+/* Main content section */
+
+content {
+    padding: 1rem 2rem;
+    display: flex;
+    flex-direction: column;
+}
+
+#tasks {
+    font-size: 18px;
+}
+
+#add-new-task-button {
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+    background-color: gray;
+    color: white;
+    width: 10rem;
+    height: 2.5rem;
+    margin-top: 1rem;
+}
+
+#add-new-task-button p {
+    margin: 0;
+    padding: 0 0.7rem;
+}
+
+/* Task form */
+
+.task-form-container {
+    width: 100%;
+    display: flex;
+    height: 2.5rem;
+}
+
+.task-form input{
+    display: flex;
+    height: 2.5rem;
+    text-align: left;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+.task-form-date {
+    width: 5.5rem;
+}
+
+.task-form-input {
+    width: 100%;
+}
+
+/* Tasks */
+
+.task {
+    display: flex;
+    height: 2.5rem;
+    width: 100%;
+    background-color: rgb(235, 235, 235);
+    border-radius: 6px;
+    padding-left: 1rem;
+    margin: 0.5rem 0;
+}
+
+.task-text {
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.task-date {
+    width: 10rem;
+    display: flex;
+    align-items: center;
+}
+
+.delete-task-button {
+    border: none;
+    border-radius: 6px;
+    padding: 0 1rem;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    font-size: 1.2rem;
+    font-weight: bolder;
+}
+
+
+/* Hover section */
+
+.clickable:hover {
+    background-color: rgb(165, 165, 165) !important;
+    cursor: pointer;
+}
+
+.delete-task-button:hover {
+    cursor: pointer;
+    background-color: lightgray;
+}
+
+.delete-project-button:hover {
+    cursor: pointer;
+    background-color: lightgray;
+}
+
+
+/* Footer section */
+
+footer {
+    margin-top: auto;
+    background-color: rgb(104, 104, 104);
+    color: white;
+    text-align: center;
+    font-size: 14px;
+}
+
+footer p {
+    margin: 0.5rem 0;
+}
+
+

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>✔ To-Do list</title>
+    <link href="./style.css" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div id="header-content">
+            <p id="header-text">ToDo list ✔</p>
+        </div>
+    </header>
+
+    <div id="main-window">
+        <sidebar>
+            <p id="all-tasks" class="clickable">All tasks</p>
+            <div id="add-project" class="add-new-project-button clickable">
+                <p class="plus-sign add-new-project-button">+</p>
+                <p id="new-project" class="add-new-project-button">New project</p>
+            </div>
+            <div id="projects-container"></div>
+        </sidebar>
+
+        <content>
+            <p id="tasks">Tasks</p>
+            <div id="task-container"></div>
+            <div id="add-new-task-button" class="add-new-task-button clickable">
+                <p class="add-new-task-button plus-sign">+</p>
+                <p id="new-task" class="add-new-task-button">New task</p>
+            </div>
+        </content>
+    </div>
+
+    <footer>
+        <p id="footer-text">Made by Zach Dodds 2021</p>
+    </footer>
+
+<script src="./src/script.js" type="module"></script>    
+</body>
+</html>
