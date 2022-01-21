@@ -174,7 +174,7 @@ content {
 }
 
 .task-form-date {
-    width: 5.5rem;
+    width: 5rem;
 }
 
 .task-form-input {
@@ -249,4 +249,8 @@ footer p {
     margin: 0.5rem 0;
 }
 
-
+/* calendar logo selector */
+input[type="date"]::-webkit-calendar-picker-indicator{
+    min-width: 30px;
+ 
+}

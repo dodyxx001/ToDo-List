@@ -7,22 +7,22 @@ const eventListeners = (() => {
 
             // Enable removing tasks with their X buttons
             if (e.target.classList.contains('delete-task-button')){
-                getElements.tasksArray.splice(e.target.parentElement.parentElement.getAttribute('data-index'), 1);  // removes object from array
-                e.target.parentElement.parentElement.remove();  // removes dom element  
-                functions.refreshLocalStorage(); // removes from local storage
+                e.target.parentElement.parentElement.remove();  // removes dom element 
+                
+                // if (getElements.selectedProjectIndex === undefined) {  // case: all tasks selected
+                //         getElements.tasksArray.splice(e.target.parentElement.parentElement.getAttribute('data-index'), 1);  // removes object from array
+                //         functions.refreshLocalStorage();   
+                         
+                // } else {                                               // case: one of the projects selected
+                getElements.projectsArray[getElements.selectedProjectIndex].tasks.splice(e.target.parentElement.parentElement.getAttribute('data-index'), 1);
+                functions.refreshLocalStorageProjects();
+                // }
             };
 
             // Enable adding new task with "+ New Task" button
             if (e.target.classList.contains('add-new-task-button')){
                 functions.promptDiv();
-            };
-
-            // Enable "add" button in the form
-            // - creates new task object, renders from "tasks" array and hides the input form
-            if (e.target.classList.contains('task-add-button') && !getElements.selectedProjectIndex){
-                functions.createTask(getElements.tasksArray);  
-                functions.renderTasks(getElements.tasksArray);
-                functions.hideInputForm(e.target);
+                functions.hideAddTaskButton();
             };
 
             // Enable "cancel" button in the form
@@ -46,16 +46,21 @@ const eventListeners = (() => {
             if (e.target.classList.contains('delete-project-button')){
                 getElements.projectsArray.splice(e.target.parentElement.getAttribute('data-index'), 1);  // removes object from array
                 e.target.parentElement.remove();
+                functions.renderProjects();
             };
 
             // Selecting projects
             if (e.target.classList.contains('project-wrapper')){
                 functions.selectProject(e.target.parentElement);
+                functions.showAddTaskButton(); // if it was hidden, makes it visible
+                functions.updateText();
+
             };
             if (e.target.classList.contains('project-innertext')){
                 functions.selectProject(e.target.parentElement.parentElement);
+                functions.showAddTaskButton(); // if it was hidden, makes it visible
+                functions.updateText();
             };
-
 
             // Adding tasks to a project ( when a project is selected)
             if (e.target.classList.contains('task-add-button') && (getElements.selectedProjectIndex > -1)) {
@@ -63,16 +68,29 @@ const eventListeners = (() => {
                 functions.createTask(getElements.projectsArray[getElements.selectedProjectIndex].tasks)
                 functions.renderTasks(getElements.projectsArray[getElements.selectedProjectIndex].tasks)
                 functions.hideInputForm(e.target);
-                console.log(getElements.projectsArray[getElements.selectedProjectIndex])
-
             };
+
+            // Enabling 'all tasks' button - render all tasks, default and from all rpojects
+            if (e.target.classList.contains('all-tasks-button')) {
+                functions.renderTasksFromAllProjects();
+                functions.hideAllDeleteTaskButtons();
+                functions.hideAddTaskButton();
+            }
 
 
         })
     }
 
+    // function keyboardSupport () {
+    //     getElements.body.addEventListener('keydown', (e) => {
+    //         if (e.key === '+') {
+    //             functions.promptDiv();
+    //         };
+    //     });
+    // };
     return {
         listen,
+        // keyboardSupport,
     }
 })();
 

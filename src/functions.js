@@ -1,13 +1,29 @@
 import { getElements } from "./domelements.js";
-import { eventListeners } from "./eventlisteners.js";
-import { taskFactory } from "./taskfactory.js";
+import { editDate } from "./dateEditor.js";
 
 const functions = (() => {
 
+    const taskFactory = (text, date, projectIndex) => {
+        return {
+            // newTask,
+            text: text,
+            date: date,
+            projectIndex: projectIndex,
+        };
+    };
+
+    // Projects factory function
+    function projectFactory (name) {
+        let tasks = [];
+        return {
+            name: name,
+            tasks
+        };
+    };
+
     // When called, this function generates the input form for creating new task
     function promptDiv () {
-        getElements.newTask.style.display = 'none';
-    
+       
         const taskForm = document.createElement('div');
         taskForm.classList.add('task-form');
         taskForm.innerHTML = `
@@ -20,73 +36,6 @@ const functions = (() => {
         `
         getElements.contentContainer.appendChild(taskForm);
     }
-
-    // When called, calls the constructor function from taskfactory.js
-    // And creates new task object
-    function createTask (array) {
-        const taskText = document.querySelector('.task-form-input');
-        const taskDate = document.querySelector('.task-form-date');
-
-    
-
-        let task = taskFactory(taskText.value, taskDate.value);  // call factory function 
-
-        array.push(task);
-        
-    };
-
-    // Function that renders tasks on DOM from an array
-    function renderTasks (array) {
-        getElements.taskOnlyContainer.innerHTML = '';
-        array.forEach((ele) => {
-            
-                const newTask = document.createElement('div');
-                newTask.innerHTML = ` 
-                    <div class="task">
-                        <p class="task-text">${ele.text}</p>
-                        <p class="task-date">${ele.date}</p>
-                        <div class="delete-task-button">X</div>
-                    </div>
-                `
-            getElements.taskOnlyContainer.append(newTask);
-            
-            if (array === getElements.tasksArray) {
-                enumerateElements('task');
-                refreshLocalStorage();
-            };
-        });
-    };
-
-    //Function that sets the "data-number" attribute to each item in the array formed from given name
-    function enumerateElements (name) {
-        let allElements = Array.from(document.getElementsByClassName(name));
-        allElements.forEach((ele) => {
-            ele.parentElement.setAttribute('data-index', allElements.indexOf(ele)); // Numbering the new task
-        })
-    }
-
-
-    // When called, this function hides the "add task" prompt form
-    function hideInputForm (button) {
-        
-        getElements.newTask.style.display = 'flex';
-        button.parentElement.remove();
-    }
-
-
-    // Function that renders tasks from local storage, if there are any
-    function renderTasksFromLocalStorageOnStartup () {
-        if (localStorage.length) {
-            getElements.tasksArray = JSON.parse(localStorage.getItem('tasks'));
-            renderTasks(getElements.tasksArray);
-        };
-    };
-
-    // Function that sets or refreshes local storage when needed
-    // Makes local storage = tasksArray
-    function refreshLocalStorage () {
-        localStorage.setItem('tasks', JSON.stringify(getElements.tasksArray));
-    };
 
     // Function that prompts name of new project, when adding new project
     function promptNewProjectName () {
@@ -101,6 +50,89 @@ const functions = (() => {
         getElements.projectsContainer.append(prompt);
     };
 
+    // When called, calls the factory function
+    // And creates new task object
+    function createTask (array) {
+        const taskText = document.querySelector('.task-form-input');
+        const taskDate = document.querySelector('.task-form-date');
+
+        let task = taskFactory(taskText.value, taskDate.value, getElements.selectedProjectIndex);  // call factory function 
+
+        array.push(task);
+        
+    };
+
+    // Function that creates HTML for a task
+    function createTaskHtml (array) {
+        array.forEach((ele) => {
+            
+            const newTask = document.createElement('div');
+            newTask.classList.add(ele.projectIndex);
+            newTask.innerHTML = ` 
+                <div class="task">
+                    <p class="task-text">${ele.text}</p>
+                    <p class="task-date">${ele.date}</p>
+                    <div class="delete-task-button">X</div>
+                </div>
+            `
+        getElements.taskOnlyContainer.append(newTask);
+        });
+        editDate.editDate();
+    };
+
+    // Function that renders tasks on DOM from an array
+    function renderTasks (array) {
+        getElements.taskOnlyContainer.innerHTML = '';
+        
+        createTaskHtml(array);
+                enumerateElements('task');                           
+                localStorage.setItem('projects', JSON.stringify(getElements.projectsArray));
+    };
+
+    //Function that sets the "data-number" attribute to each item in the array formed from given name
+    function enumerateElements (name) {
+        let allElements = Array.from(document.getElementsByClassName(name));
+            allElements.forEach((ele) => {
+                ele.parentElement.setAttribute('data-index', allElements.indexOf(ele)); // Numbering the new task
+            })
+    }
+
+
+    // When called, this function hides the prompt form
+    function hideInputForm (button) {
+        
+        getElements.newTask.style.display = 'flex';
+        button.parentElement.remove();
+    }
+
+    // When called, this function hides "add task" button
+    function hideAddTaskButton () {
+        getElements.newTask.style.display = 'none';
+    };
+
+    // When called, this function shows "add task" Button again
+    function showAddTaskButton () {
+        getElements.newTask.style.display = 'flex';
+    };
+
+
+    // Function that renders tasks from local storage, if there are any
+    // If not, it creates a "default project"
+    function renderTasksFromLocalStorageOnStartup () {
+        if (localStorage.projects) {    // if there are any projects
+                    getElements.projectsArray = JSON.parse(localStorage.getItem('projects'));
+                    renderProjects();
+                    renderTasks(getElements.projectsArray[0].tasks);
+        } else {    
+            const defaultProject = projectFactory('Default Project');
+            getElements.projectsArray.push(defaultProject);
+            renderProjects();
+        };    
+
+        
+    };
+
+
     // Function that grabs the input value and creates new project
     function createProject (button) {
         let projectInput = document.querySelector('#new-project-input').value;
@@ -112,14 +144,6 @@ const functions = (() => {
         getElements.projectsArray.push(newProject);
     };
 
-    // Projects factory function
-    function projectFactory (name) {
-        let tasks = [];
-        return {
-            name: name,
-            tasks
-        };
-    };
 
     // Render projects from projects array
     function renderProjects () {
@@ -137,14 +161,47 @@ const functions = (() => {
             getElements.projectsContainer.append(newProject);
 
             enumerateElements('project-wrapper'); // enumerates projects
+            localStorage.setItem('projects', JSON.stringify(getElements.projectsArray));
+
         });
     };
 
+    // Selects project - assigns an index number
     function selectProject (element) {
         let index = element.getAttribute('data-index');
         renderTasks(getElements.projectsArray[index].tasks);  // renders tasks array from clicked project
 
         getElements.selectedProjectIndex = index;  // saves the selected project index
+    };
+
+    // Local storage function
+    function refreshLocalStorageProjects () {
+        localStorage.setItem('projects', JSON.stringify(getElements.projectsArray));
+    };
+
+    // Renders all tasks when we click button "all tasks"
+    function renderTasksFromAllProjects () {
+        getElements.taskOnlyContainer.innerHTML = '';   // resets to empty
+        getElements.projectsArray.forEach((ele) => {
+            createTaskHtml(ele.tasks);  // adds tasks from each project
+        });
+
+        getElements.titleText.textContent = 'All tasks';  // Edits title text
+    };
+
+    // Hides editing of tasks, when "all tasks" is selected
+    function hideAllDeleteTaskButtons () {
+
+        let allDeleteTaskButtons = document.querySelectorAll('.delete-task-button');
+            allDeleteTaskButtons.forEach((button) => {
+                button.remove();
+            });
+    };
+
+    // Updates the title text above the tasks
+    function updateText () {
+        let text = getElements.projectsArray[getElements.selectedProjectIndex].name   // Gets name of selected project
+        getElements.titleText.textContent = `Tasks in ${text}`;
     };
 
 
@@ -153,15 +210,20 @@ const functions = (() => {
     return {
         promptDiv,
         hideInputForm,
+        showAddTaskButton,
+        hideAddTaskButton,
         createTask,
         renderTasks,
         renderTasksFromLocalStorageOnStartup,
-        refreshLocalStorage,
+        renderTasksFromAllProjects,
+        refreshLocalStorageProjects,
         enumerateElements,
         promptNewProjectName,
         createProject,
         renderProjects,
         selectProject,
+        hideAllDeleteTaskButtons,
+        updateText
     };
 })();
 

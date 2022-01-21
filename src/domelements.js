@@ -1,9 +1,9 @@
 const getElements = (() => {
 
-    let tasksArray = [];
+    // let tasksArray = [];
     let projectsArray = [];
     
-    let selectedProjectIndex = undefined;
+    let selectedProjectIndex = 0;
 
     const body = document.querySelector('body');
     const newTask = document.querySelector('#add-new-task-button');
@@ -11,12 +11,13 @@ const getElements = (() => {
     const contentContainer = document.querySelector('content');
     const taskOnlyContainer = document.querySelector('#task-container');
     const projectsContainer = document.querySelector('#projects-container');
+    const titleText = document.querySelector('#tasks');
 
 
 
 
     return {
-        tasksArray,
+        // tasksArray,
         projectsArray,
         selectedProjectIndex,
         newTask,
@@ -25,6 +26,7 @@ const getElements = (() => {
         body,
         taskOnlyContainer,
         projectsContainer,
+        titleText
     };
 })();
 
