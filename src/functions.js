@@ -179,15 +179,28 @@ const functions = (() => {
         localStorage.setItem('projects', JSON.stringify(getElements.projectsArray));
     };
 
-    // Renders all tasks when we click button "all tasks"
+    // Renders all tasks when we click button "all tasks" and order them by date
     function renderTasksFromAllProjects () {
-        getElements.taskOnlyContainer.innerHTML = '';   // resets to empty
+
+    let toBeRendered = [];
+    getElements.taskOnlyContainer.innerHTML = '';   // resets to empty
         getElements.projectsArray.forEach((ele) => {
-            createTaskHtml(ele.tasks);  // adds tasks from each project
+            ele.tasks.forEach((task) => {
+                toBeRendered.push(task);
+            });
         });
 
+        toBeRendered.sort((a, b) => {  // Sort tasks by date
+            let c = new Date(a.date);
+            let d = new Date(b.date);
+            return c-d;
+        });
+
+        createTaskHtml(toBeRendered);  // adds tasks from each project
+        
         getElements.titleText.textContent = 'All tasks';  // Edits title text
     };
+
 
     // Hides editing of tasks, when "all tasks" is selected
     function hideAllDeleteTaskButtons () {
@@ -204,8 +217,42 @@ const functions = (() => {
         getElements.titleText.textContent = `Tasks in ${text}`;
     };
 
+    // When called, creates the "reset" button 
+    function createResetButton () {
+        const btn = document.createElement('button');
+        btn.classList.add('reset-button');
+        btn.textContent = 'Reset - delete all tasks and projects';
 
+        getElements.contentContainer.append(btn);
+    };
 
+    // Removes reset button
+    function removeResetButton () {
+        document.querySelector('.reset-button').remove();  //remove reset button
+    };
+
+    // "Are you sure?" prompt
+    function createAreYouSurePrompt () {
+        document.querySelector('.reset-button').remove();  //remove reset button
+
+        const prompt = document.createElement('div');  // create prompt div
+        prompt.classList.add('are-you-sure');
+
+        prompt.innerHTML = `
+        <p>Confirm deleting all projects and tasks</p>
+        <div id="are-you-sure-buttons">
+            <button class="are-you-sure-yes">Yes</button>
+            <button class="are-you-sure-no">No</button>
+        </div>
+        `
+        getElements.contentContainer.append(prompt);
+    };
+
+    // Reset all
+    function deleteAllTasksAndProjects () {
+        localStorage.clear();
+        location.reload();
+    };
 
     return {
         promptDiv,
@@ -223,7 +270,11 @@ const functions = (() => {
         renderProjects,
         selectProject,
         hideAllDeleteTaskButtons,
-        updateText
+        updateText,
+        createResetButton,
+        removeResetButton,
+        createAreYouSurePrompt,
+        deleteAllTasksAndProjects,
     };
 })();
 

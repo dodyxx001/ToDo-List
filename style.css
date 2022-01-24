@@ -216,6 +216,21 @@ content {
     font-weight: bolder;
 }
 
+.reset-button {
+    align-self: flex-end;
+    margin-top: auto;
+}
+
+.are-you-sure {
+    align-self: flex-end;
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+}
+
 
 /* Hover section */
 
@@ -253,4 +268,23 @@ footer p {
 input[type="date"]::-webkit-calendar-picker-indicator{
     min-width: 30px;
  
+}
+
+
+/* Media queries */
+
+@media only screen and (max-width: 600px) {
+    #main-window {
+        display: block;
+    }
+
+    sidebar {
+        height: auto;
+        width: 100%;
+        display: flex;
+    }
+
+    content {
+        width: auto;
+    }
 }

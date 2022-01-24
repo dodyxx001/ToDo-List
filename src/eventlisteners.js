@@ -54,12 +54,15 @@ const eventListeners = (() => {
                 functions.selectProject(e.target.parentElement);
                 functions.showAddTaskButton(); // if it was hidden, makes it visible
                 functions.updateText();
+                functions.removeResetButton();
 
             };
             if (e.target.classList.contains('project-innertext')){
                 functions.selectProject(e.target.parentElement.parentElement);
                 functions.showAddTaskButton(); // if it was hidden, makes it visible
                 functions.updateText();
+                functions.removeResetButton();
+
             };
 
             // Adding tasks to a project ( when a project is selected)
@@ -71,26 +74,59 @@ const eventListeners = (() => {
             };
 
             // Enabling 'all tasks' button - render all tasks, default and from all rpojects
+            // Creates reset button
             if (e.target.classList.contains('all-tasks-button')) {
                 functions.renderTasksFromAllProjects();
                 functions.hideAllDeleteTaskButtons();
                 functions.hideAddTaskButton();
-            }
+
+                functions.createResetButton();
+
+                // functions.orderTasksByDate();
+            };
+
+            // "reset" button functionality - create prompt
+            if (e.target.classList.contains('reset-button')) {
+                functions.createAreYouSurePrompt();
+            };
+
+            // "reset" prompt functionality - "yes" and "no" buttons
+            if (e.target.classList.contains('are-you-sure-yes')) {
+                functions.deleteAllTasksAndProjects();
+            };
+
+            if (e.target.classList.contains('are-you-sure-no')) {
+                document.querySelector('.are-you-sure').remove();
+                functions.createResetButton();
+            };
 
 
-        })
-    }
+        });
+    };
 
-    // function keyboardSupport () {
-    //     getElements.body.addEventListener('keydown', (e) => {
-    //         if (e.key === '+') {
-    //             functions.promptDiv();
-    //         };
-    //     });
-    // };
+
+
+    function keyboardSupport () {
+        getElements.body.addEventListener('keydown', (e) => {
+
+            if (e.key === '+') {
+                functions.promptDiv();
+                functions.hideAddTaskButton();
+
+                document.querySelector('.task-form-input').focus();
+               
+            };
+
+            if (e.key === 'Enter') {
+                document.querySelector('.task-add-button').click();
+            };
+        });
+    };
+
+
     return {
         listen,
-        // keyboardSupport,
+        keyboardSupport,
     }
 })();
 

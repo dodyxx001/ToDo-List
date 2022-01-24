@@ -6,7 +6,7 @@ import { functions } from "./functions.js";
 eventListeners.listen();
 
 
-// eventListeners.keyboardSupport();
+eventListeners.keyboardSupport();
 
 functions.renderTasksFromLocalStorageOnStartup();
 functions.updateText();  
