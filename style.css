@@ -163,6 +163,7 @@ content {
     width: 100%;
     display: flex;
     height: 2.5rem;
+    justify-content: space-between;
 }
 
 .task-form input{
@@ -171,14 +172,21 @@ content {
     text-align: left;
     padding: 1rem;
     margin-bottom: 1rem;
-}
-
-.task-form-date {
-    width: 5rem;
+    margin-right: 1rem;
+    border: 1px solid black;
+    border-radius: 5px;
 }
 
 .task-form-input {
-    width: 100%;
+    width: 60%;
+}
+
+.task-form-date {
+    width: 20%;
+}
+
+.task-add-button {
+    margin-right: 1rem;
 }
 
 /* Tasks */

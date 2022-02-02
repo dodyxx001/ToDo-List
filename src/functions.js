@@ -29,7 +29,7 @@ const functions = (() => {
         taskForm.innerHTML = `
             <div class="task-form-container">
                 <input type="text" placeholder="task name" class="task-form-input">
-                <input type="date" class="task-form-date">
+                <input type="date" class="task-form-date" placeholder="date">
                 <button class="task-add-button">Add</button>
                 <button class="task-cancel-button">Cancel</button>
             </div>
