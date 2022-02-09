@@ -7,13 +7,9 @@ const eventListeners = (() => {
 
             // Enable removing tasks with their X buttons
             if (e.target.classList.contains('delete-task-button')){
-                e.target.parentElement.parentElement.remove();  // removes dom element 
-                
-                // if (getElements.selectedProjectIndex === undefined) {  // case: all tasks selected
-                //         getElements.tasksArray.splice(e.target.parentElement.parentElement.getAttribute('data-index'), 1);  // removes object from array
-                //         functions.refreshLocalStorage();   
+                e.target.parentElement.parentElement.remove();  // removes dom element  
+                functions.enumerateElements('task');  // re- enumerate tasks
                          
-                // } else {                                               // case: one of the projects selected
                 getElements.projectsArray[getElements.selectedProjectIndex].tasks.splice(e.target.parentElement.parentElement.getAttribute('data-index'), 1);
                 functions.refreshLocalStorageProjects();
                 // }
